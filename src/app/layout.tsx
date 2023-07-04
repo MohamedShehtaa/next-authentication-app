@@ -1,5 +1,6 @@
+import './globals.css';
+import './tailwindClasses.css';
 import LayoutProvider from '@/components/LayoutProvider';
-// import './globals.css';
 
 export const metadata = {
   title: 'Next Auth',
@@ -7,5 +8,11 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return <LayoutProvider>{children}</LayoutProvider>;
+  return (
+    <html lang='en'>
+      <body>
+        <LayoutProvider>{children}</LayoutProvider>
+      </body>
+    </html>
+  );
 }
