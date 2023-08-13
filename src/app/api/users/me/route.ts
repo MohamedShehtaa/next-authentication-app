@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-export function GET(request: NextRequest) {
+export async function GET(request: NextRequest) {
   try {
     const queryParams = new URL(request.nextUrl);
     console.log(queryParams.searchParams.get('user'));
