@@ -2,12 +2,14 @@
 import Link from 'next/link';
 import React from 'react';
 import { usePathname } from 'next/navigation';
+import { Toaster } from 'react-hot-toast';
 
 function LayoutProvider({ children }: { children: React.ReactNode }) {
   const pathName = usePathname();
   const isPublicPage = pathName === '/login' || pathName === '/register';
   return (
     <div>
+        <Toaster/>
       {!isPublicPage && (
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <h1>Next Auth {pathName}</h1>

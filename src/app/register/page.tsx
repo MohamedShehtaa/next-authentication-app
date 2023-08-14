@@ -3,6 +3,10 @@
 import Input from '@/components/Input';
 import Link from 'next/link';
 import React, { useEffect } from 'react';
+import axios from 'axios';
+import Spinner from '@/components/Spinner';
+import { toast } from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 
 function Register() {
   const [loading, setLoading] = React.useState(false);
@@ -12,8 +16,18 @@ function Register() {
     password: '',
     email: '',
   });
+  const router = useRouter();
   const onRegister = async () => {
-    console.log(user);
+    try {
+      setLoading(true);
+      const response = await axios.post('/api/users/register', user);
+      toast.success(response.data.message);
+      router.push('/login');
+    } catch (e: any) {
+      toast.error(e.response.data.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -26,6 +40,7 @@ function Register() {
 
   return (
     <div className='flex h-screen justify-center items-center'>
+      {loading && <Spinner />}
       <form className='auth-form flex flex-col gap-5' onSubmit={(e) => e.preventDefault()}>
         <h1 className='text-2xl'>Register</h1>
         <hr />
