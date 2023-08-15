@@ -2,6 +2,10 @@
 import Input from '@/components/Input';
 import React, { useEffect } from 'react';
 import Link from 'next/link';
+import { toast } from 'react-hot-toast';
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
+import Spinner from '@/components/Spinner';
 
 function Login() {
   const [loading, setLoading] = React.useState(false);
@@ -11,7 +15,20 @@ function Login() {
     email: '',
   });
 
-  const onLogin = async () => {};
+  const router = useRouter();
+
+  const onLogin = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.post('/api/users/login', user);
+      toast.success(response.data.message);
+      //   router.push('/login');
+    } catch (e: any) {
+      toast.error(e.response.data.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     if (user.email.length > 0 && user.password) {
@@ -23,6 +40,7 @@ function Login() {
 
   return (
     <div className='flex h-screen justify-center items-center'>
+      {loading && <Spinner />}
       <form className='auth-form flex flex-col gap-5' onSubmit={(e) => e.preventDefault()}>
         <h1 className='text-2xl'>Login</h1>
         <hr />
