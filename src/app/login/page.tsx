@@ -22,7 +22,7 @@ function Login() {
       setLoading(true);
       const response = await axios.post('/api/users/login', user);
       toast.success(response.data.message);
-      //   router.push('/login');
+      router.push('/');
     } catch (e: any) {
       toast.error(e.response.data.message);
     } finally {
