@@ -1,5 +1,6 @@
 import './globals.css';
 import './tailwindClasses.css';
+import 'remixicon/fonts/remixicon.css';
 import LayoutProvider from '@/components/LayoutProvider';
 
 export const metadata = {
