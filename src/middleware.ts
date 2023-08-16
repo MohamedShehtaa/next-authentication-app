@@ -29,5 +29,5 @@ export function middleware(request: NextRequest) {
 // the previous will work correctly but the styles and assets does not work because we need to match the other  paths
 
 export const config = {
-  matcher: '/',
+  matcher: ['/', '/profile/:path*', '/login', '/register'],
 };
