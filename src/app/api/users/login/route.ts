@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import User from '@/models/userModel';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+// import { cookies } from 'next/dist/client/components/headers';
 
 connectDb();
 
@@ -26,11 +27,35 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
     const token = jwt.sign(dataToEncrypt, process.env.jwt_secret!, { expiresIn: '1d' });
 
-    return NextResponse.json({
+    // set token to cookies
+
+    /**
+     * A) => way 1
+     * 
+   *     cookies().set('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      path: '/',
+      expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30), //30days
+    });
+   */
+
+    // B) => way 2  best
+    // will not send token in response and will set it to cookies
+    //  any request form the client the cookies will attached automatically
+    const response = NextResponse.json({
       message: 'login successful',
       success: true,
-      data: token,
     });
+
+    response.cookies.set('token', token, {
+      httpOnly: true,
+      path: '/',
+      //   expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30), //30days
+    });
+
+    return response;
   } catch (err: any) {
     return NextResponse.json({ message: err.message }, { status: 500 });
   }
