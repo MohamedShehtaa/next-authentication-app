@@ -4,7 +4,7 @@ import { cookies } from 'next/dist/client/components/headers';
 export async function getUser() {
   try {
     // here we need to write the full url cuze is running in the server side and pass the cookies in the request
-    const response = await axios.get('http://localhost:3000/api/users/me', {
+    const response = await axios.get(`${process.env.domain!}/api/users/me`, {
       headers: {
         cookie: `token=${cookies().get('token')?.value}`,
       },
