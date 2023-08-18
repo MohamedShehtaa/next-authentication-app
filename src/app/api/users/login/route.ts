@@ -18,6 +18,10 @@ export async function POST(req: NextRequest, res: NextResponse) {
     const isPasswordCorrect = await bcrypt.compare(reqBody.password, user.password);
     if (!isPasswordCorrect) throw new Error('Invalid Credentials');
 
+    // check if the user is verified or not
+
+    if (!user.isEmailVerified) throw new Error('Email not verified');
+
     // return the token
     const dataToEncrypt = {
       _id: user._id,
