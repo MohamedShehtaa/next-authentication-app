@@ -10,7 +10,11 @@ import Spinner from './Spinner';
 function LayoutProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(false);
   const pathName = usePathname();
-  const isPublicPage = pathName === '/login' || pathName === '/register';
+  const isNotPrivatePage =
+    pathName === '/login' ||
+    pathName === '/register' ||
+    pathName === '/verifyemail' ||
+    pathName === '/resetpassword';
 
   const router = useRouter();
 
@@ -30,7 +34,7 @@ function LayoutProvider({ children }: { children: React.ReactNode }) {
     <div>
       {loading && <Spinner />}
       <Toaster />
-      {!isPublicPage && (
+      {!isNotPrivatePage && (
         <div style={{ display: 'flex', justifyContent: 'space-between' }} className='header'>
           <h1>Next Auth {pathName}</h1>
           <div style={{ width: '30%', display: 'flex', justifyContent: 'space-around' }}>
